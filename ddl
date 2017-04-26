@@ -1,3 +1,7 @@
+////1.基本只用到 CHAR(8), CHAR(10), VARCHAR(20), VARCHAR(50), SMALLINT 
+    2.foreign key 和primary key都已经指明， NOT NULL条件待定。
+    3.Journey里原来的from 和to 改成了 from_where 和to_where，from 因为sublime里编辑from会被当成query 所以感觉比较虚。。
+    4.medal的check已经添加
 CREATE TABLE Member (
 		member_id CHAR(10) PRIMARY KEY,
 		title VARCHAR(50) NOT NULL,
@@ -23,6 +27,12 @@ CREATE TABLE Journey_book(
 		PRIMARY KEY (vehicle_code, start_date, start_time, member_id)
 		);
 
+CREATE TABLE Vehicle(
+		vehicle_code CHAR(8),
+		capacity SMALLINT,
+		PRIMARY KEY (vehicle_code, capacity)
+		)
+
 CREATE TABLE Journey(
 		vehicle_code CHAR(8) REFERENCES Journey_book(vehicle_code),
 		start_date DATE REFERENCES Journey_book(start_date),
@@ -32,34 +42,34 @@ CREATE TABLE Journey(
 		from_where VARCHAR(20) REFERENCES Place(place_name),
 		to_where VARCHAR(20) REFERENCES Place(place_name),
 		PRIMARY KEY (vehicle_code, start_date, start_time)
-		)
+		);
 
 CREATE TABLE Place(
 		place_name VARCHAR(20) PRIMARY KEY,
 		longitude VARCHAR(20) NOT NULL,
 		latitude VARCHAR(20) NOT NULL,
 		address VARCHAR(50) NOT NULL
-		 )
+		 );
 
 CREATE TABLE Accommodation(
 		place_name VARCHAR(20) PRIMARY KEY REFERENCES Place(place_name)
-		)
+		);
 
 CREATE TABLE Sport_venue(
 		place_name VARCHAR(20) PRIMARY KEY REFERENCES Place(place_name)
-		)
+		);
 
 CREATE TABLE Hold_event(
 		event_name VARCHAR(50) REFERENCES Event(event_name),
 		place_name VARCHAR (20) REFERENCES Sport_venue(place_name),
 		PRIMARY KEY (event_name, place_name)
-		)
+		);
 
 CREATE TABLE Live_in(
 		member_id CHAR(10) REFERENCES Member(member_id),
 		place_name VARCHAR(20) REFERENCES Accommodation(place_name),
 		PRIMARY KEY (member_id, place_name)
-		)
+		);
 
 
 CREATE TABLE Sport(
@@ -80,12 +90,6 @@ CREATE TABLE Official(
 		member_id CHAR(10) PRIMARY KEY REFERENCES Member(member_id)
 		);
 
-CREATE TABLE Run_event(
-		event_name VARCHAR(50) REFERENCES Event(event_name),
-		member_id CHAR(10) REFERENCES Official(member_id),
-		role VARCHAR(20) NOT NULL
-		);
-
 CREATE TABLE Staff(
 		member_id CHAR(10) PRIMARY KEY REFERENCES Member(member_id)
 			);
@@ -99,6 +103,11 @@ CREATE TABLE Member_from(
 		Country_code SMALLINT REFERENCES Country(Country_code), 
 		member_id CHAR(10) REFERENCES Member(member_id)
 		PRIMARY KEY(Country_code, member_id)
+		);
+CREATE TABLE Run_event(
+		event_name VARCHAR(50) REFERENCES Event(event_name),
+		member_id CHAR(10) REFERENCES Official(member_id),
+		role VARCHAR(20) NOT NULL
 		);
 
 CREATE TABLE Participates(
