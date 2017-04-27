@@ -6,7 +6,9 @@ CREATE TABLE Member (
 		member_id CHAR(10) PRIMARY KEY,
 		title VARCHAR(50) NOT NULL,
 		given_name VARCHAR(20) NOT NULL,
-		family_name VARCHAR(20) NOT NULL
+		family_name VARCHAR(20) NOT NULL，
+		country_code SMALLINT REFERENCES Country(country_code),
+		live_place VARCHAR(20) REFERENCES Accommodation(place_name)
 		);
 
 CREATE TABLE Event(
@@ -65,11 +67,7 @@ CREATE TABLE Hold_event(
 		PRIMARY KEY (event_name, place_name)
 		);
 
-CREATE TABLE Live_in(
-		member_id CHAR(10) REFERENCES Member(member_id),
-		place_name VARCHAR(20) REFERENCES Accommodation(place_name),
-		PRIMARY KEY (member_id, place_name)
-		);
+
 
 
 CREATE TABLE Sport(
@@ -100,9 +98,9 @@ CREATE TABLE Country(
 		);
 
 CREATE TABLE Member_from(
-		Country_code SMALLINT REFERENCES Country(Country_code), 
+		country_code SMALLINT REFERENCES country(country_code), 
 		member_id CHAR(10) REFERENCES Member(member_id)
-		PRIMARY KEY(Country_code, member_id)
+		PRIMARY KEY(country_code, member_id)
 		);
 CREATE TABLE Run_event(
 		event_name VARCHAR(50) REFERENCES Event(event_name),
