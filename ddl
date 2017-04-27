@@ -3,6 +3,8 @@
     3.Journey里原来的from 和to 改成了 from_where 和to_where，from 因为sublime里编辑from会被当成query 所以感觉比较虚。。
     4.medal的check已经添加
     5.date和time的格式有待确定
+    6.time&date convert into timestamp.
+    7.operator to booked_by
 */
 CREATE TABLE Vehicle(
 	vehicle_code CHAR(8),
@@ -36,8 +38,7 @@ CREATE TABLE Sport_venue(
 
 CREATE TABLE Event(
 	event_name VARCHAR(50) PRIMARY KEY,
-	start_time TIMESTAMP WITH TIME ZONE NOT NULL,
-	start_date DATE NOT NULL,
+	event_starts TIMESTAMP NOT NULL,
 	result_type VARCHAR(20),
 	place_name VARCHAR(20) REFERENCES Sport_venue(place_name),
 	sport_name VARCHAR(20) REFERENCES Sport(sport_name)
@@ -45,14 +46,14 @@ CREATE TABLE Event(
 
 CREATE TABLE Journey(
 	vehicle_code CHAR(8) REFERENCES Journey_book(vehicle_code),
-	start__date VARCHAR(20) REFERENCES Journey_book(start_date),
-	start__time VARCHAR(20) REFERENCES Journey_book(start_time),
+	start_date DATE REFERENCES Journey_book(start_date),
+	start_time TIME REFERENCES Journey_book(start_time),
 	from_where VARCHAR(20) REFERENCES Place(place_name),
 	to_where VARCHAR(20) REFERENCES Place(place_name),
 	PRIMARY KEY (vehicle_code, start_date, start_time)
 	);
 
-CREATE TABLE Member (
+CREATE TABLE Members (
 	member_id CHAR(10) PRIMARY KEY,
 	title VARCHAR(50) NOT NULL,
 	given_name VARCHAR(20) NOT NULL,
@@ -75,14 +76,13 @@ CREATE TABLE Staff(
 
 CREATE TABLE Journey_book(
 	vehicle_code CHAR(8) ,
-	start__date VARCHAR(20),
-	start__time VARCHAR(20),
+	start_date DATE,
+	start_time TIME,
 	member_id CHAR(10) REFERENCES Member(member_id),
 	book_time TIME NOT NULL,
 	operator CHAR(10) REFERENCES Staff(member_id),
 	PRIMARY KEY (vehicle_code, start_date, start_time, member_id)
 	);
-
 
 CREATE TABLE Run_event(
 	event_name VARCHAR(50) REFERENCES Event(event_name),
