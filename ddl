@@ -9,7 +9,7 @@ CREATE TABLE Vehicle(
 		vehicle_code CHAR(8),
 		capacity SMALLINT,
 		PRIMARY KEY (vehicle_code, capacity)
-		)
+		);
 
 CREATE TABLE Place(
 		place_name VARCHAR(20) PRIMARY KEY,
@@ -87,23 +87,6 @@ CREATE TABLE Journey_book(
 		PRIMARY KEY (vehicle_code, start_date, start_time, member_id)
 		);
 
-CREATE TABLE Hold_event(
-		event_name VARCHAR(50) REFERENCES Event(event_name),
-		place_name VARCHAR (20) REFERENCES Sport_venue(place_name),
-		PRIMARY KEY (event_name, place_name)
-		);
-
-CREATE TABLE Sport_for_event(
-		sport_name VARCHAR(20) REFERENCES Sport(sport_name),
-		event_name VARCHAR(50) REFERENCES Event(event_name)
-		PRIMARY KEY(sport_name, event_name)
-		);
-
-CREATE TABLE Member_from(
-		country_code SMALLINT REFERENCES country(country_code), 
-		member_id CHAR(10) REFERENCES Member(member_id)
-		PRIMARY KEY(country_code, member_id)
-		);
 
 CREATE TABLE Run_event(
 		event_name VARCHAR(50) REFERENCES Event(event_name),
